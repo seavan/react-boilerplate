@@ -1,21 +1,38 @@
-import * as React from "react";
-import { hot } from "react-hot-loader";
+import * as React from 'react';
+import { hot } from 'react-hot-loader';
+import { observer } from 'mobx-react';
+import { action, observable } from 'mobx';
 
-const reactLogo = require("./../assets/img/react_logo.svg");
-import "./../assets/scss/App.scss";
+import './../assets/scss/App.scss';
 
-class App extends React.Component<Record<string, unknown>, undefined> {
+@observer
+class App extends React.Component {
+  @observable counter = 0;
+
+  @action.bound handleIncrease() {
+    this.counter++;
+  }
+
+  @action.bound handleDecrease() {
+    this.counter--;
+  }
+
   public render() {
     return (
       <div className="app">
         <h1>Hello World!</h1>
-        <p>Foo to the barz</p>
-        <img src={reactLogo.default} height="480" />
+        <ul>
+          <li>
+            <input type="button" onClick={this.handleIncrease} value="Increase" />
+          </li>
+          <li>{this.counter}</li>
+          <li>
+            <input type="button" onClick={this.handleDecrease} value="Decrease" />
+          </li>
+        </ul>
       </div>
     );
   }
 }
-
-declare let module: Record<string, unknown>;
 
 export default hot(module)(App);
